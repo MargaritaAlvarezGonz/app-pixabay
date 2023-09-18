@@ -20,9 +20,11 @@ export class BuscarImagenComponent implements OnInit {
 
   buscarImagenes(){
     if(this.nombreImagen === '') {
-      this._imagenService.setError('Agrega un texto de búsqueda')
+      this._imagenService.setError('Agrega un texto de búsqueda');
+      return;
 
     }
+    this._imagenService.enviarTerminoBusqueda(this.nombreImagen);
 
   }
 
