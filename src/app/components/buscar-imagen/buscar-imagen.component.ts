@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ImagenService } from 'src/app/services/imagen.service';
 
 @Component({
   selector: 'app-buscar-imagen',
@@ -9,8 +10,8 @@ export class BuscarImagenComponent implements OnInit {
 
   //creamos aquí una variable que se llama nombre imagen;
   nombreImagen:string;
-
-  constructor() {
+  //aquí en el constructor tenemos que inyectar el servicio
+  constructor(private _imagenService: ImagenService) {
     this.nombreImagen="";
    }
 
@@ -18,7 +19,10 @@ export class BuscarImagenComponent implements OnInit {
   }
 
   buscarImagenes(){
-    console.log(this.nombreImagen)
+    if(this.nombreImagen === '') {
+      this._imagenService.setError('Agrega un texto de búsqueda')
+
+    }
 
   }
 
