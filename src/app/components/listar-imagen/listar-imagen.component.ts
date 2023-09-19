@@ -12,6 +12,7 @@ export class ListarImagenComponent implements OnInit {
 
   termino = '';
   suscription : Subscription;
+  listImagenes: any [] = [];
 
   constructor(private _imagenService: ImagenService) {
     this.suscription = this._imagenService.getTerminoBusqueda().subscribe(data => {
@@ -26,6 +27,14 @@ export class ListarImagenComponent implements OnInit {
   obtenerImagenes(){
     this._imagenService.getImagenes(this.termino).subscribe(data =>{
       console.log(data);
+
+      if(data.hits.length === 0){
+        this._imagenService.setError('Upsi, no encontramos ningún resultado');
+        return;
+      }
+      this.listImagenes = data.hits;
+    }, error => {
+      this._imagenService.setError('Upsi... ocurrió un error inesperado')
     })
   }
 
