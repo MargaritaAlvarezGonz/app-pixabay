@@ -21,6 +21,7 @@ export class ListarImagenComponent implements OnInit {
   constructor(private _imagenService: ImagenService) {
     this.suscription = this._imagenService.getTerminoBusqueda().subscribe(data => {
       this.termino = data;
+      this.paginaActual = 1;
       this.loading= true;
       this.obtenerImagenes();
     })
@@ -30,9 +31,9 @@ export class ListarImagenComponent implements OnInit {
   }
 
   obtenerImagenes(){
-    this._imagenService.getImagenes(this.termino).subscribe(data =>{
+    this._imagenService.getImagenes(this.termino, this.imagenesPorPagina, this.paginaActual).subscribe(data =>{
       this.loading= false;
-      this.paginaActual = 1;
+
       if(data.hits.length === 0){
         this._imagenService.setError('Upsi, no encontramos ningún resultado');
         return;
@@ -48,9 +49,16 @@ export class ListarImagenComponent implements OnInit {
 
   paginaAnterior(){
     this.paginaActual--;
+    this.loading = true;
+    this.listImagenes = [];
+    this.obtenerImagenes();
+
   }
   paginaPosterior(){
     this.paginaActual++;
+    this.loading = true;
+    this.listImagenes = [];
+    this.obtenerImagenes();
   }
 
   paginaAnteriorClass(){
